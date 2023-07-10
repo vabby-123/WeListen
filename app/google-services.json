@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "120354603922",
+    "firebase_url": "https://welisten-ed268-default-rtdb.firebaseio.com",
+    "project_id": "welisten-ed268",
+    "storage_bucket": "welisten-ed268.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:120354603922:android:4c0179f116f6177e28774b",
+        "android_client_info": {
+          "package_name": "com.example.welisten"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "120354603922-f7sni33je0pp4768tcoiq1439qvleou2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.welisten",
+            "certificate_hash": "2c72405b19acfd24d800a465b6fe5038f5034b4f"
+          }
+        },
+        {
+          "client_id": "120354603922-spiu2kih9b8iajl6hki53bdcjahaghlm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAr3UXpBjgMxzvXk_y32pas6H6ic1Cwrok"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "120354603922-8loljek6j5i3k8mbkplqb56vnjogq8a9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
