@@ -1,69 +1,51 @@
 package com.example.welisten;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.example.welisten.Adapter.UsersAdapter;
-import com.example.welisten.Models.Users;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
+
 import com.example.welisten.databinding.ActivityHomeBinding;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity {
 
-    ActivityHomeBinding binding;
+    private ActivityHomeBinding binding;
     FirebaseAuth auth;
-    ArrayList<Users> list = new ArrayList<>();
-    FirebaseDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        getSupportActionBar().setTitle("WeListen");
+
 
         auth = FirebaseAuth.getInstance();
-        UsersAdapter adapter = new UsersAdapter(list, this);  //use getContext in place of this in case of fragment
-        binding.chatRecyclerView.setAdapter(adapter);
-        database = FirebaseDatabase.getInstance();
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        binding.chatRecyclerView.setLayoutManager(layoutManager);
 
-        database.getReference().child("Users").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    Users users = dataSnapshot.getValue(Users.class);
-                    users.getUserId();
-                    list.add(users);
-                }
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
+        BottomNavigationView navView = findViewById(R.id.nav_view);
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+//        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
+//                R.id.navigation_chat, R.id.navigation_call)
+//                .build();
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_home);
+//        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        NavigationUI.setupWithNavController(binding.navView, navController);
     }
 
-    //to set menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -84,4 +66,5 @@ public class HomeActivity extends AppCompatActivity {
         }
         return true;
     }
+
 }
