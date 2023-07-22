@@ -10,13 +10,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WeListen">
         <activity
-            android:name=".HomeActivity"
+            android:name=".ChatDetailActivity"
             android:exported="false" />
+        <activity
+            android:name=".HomeActivity"
+            android:exported="false"
+            android:label="@string/title_activity_home" />
         <activity
             android:name=".RegistrationActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".SignInActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
