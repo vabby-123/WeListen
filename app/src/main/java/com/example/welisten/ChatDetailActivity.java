@@ -4,9 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Message;
 import android.view.View;
 
 import com.example.welisten.Adapter.ChatAdapter;
@@ -19,8 +19,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+import com.zegocloud.uikit.prebuilt.call.config.ZegoNotificationConfig;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoUIKitPrebuiltCallInvitationConfig;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoUIKitPrebuiltCallInvitationService;
+import com.zegocloud.uikit.service.defines.ZegoUIKitUser;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 
 public class ChatDetailActivity extends AppCompatActivity {
@@ -28,7 +33,6 @@ public class ChatDetailActivity extends AppCompatActivity {
     ActivityChatDetailBinding binding;
     FirebaseDatabase database;
     FirebaseAuth auth;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +49,7 @@ public class ChatDetailActivity extends AppCompatActivity {
         String profilePic = getIntent().getStringExtra("profilePic");
 
         binding.userName.setText(userName);
+
         Picasso.get().load(profilePic).placeholder(R.drawable.profile_photo).into(binding.imageProfile);
 
         binding.backArrow.setOnClickListener(new View.OnClickListener() {
@@ -109,5 +114,60 @@ public class ChatDetailActivity extends AppCompatActivity {
             }
         });
 
+        setVoiceCall(receiverId, userName);
+        setVideoCall(receiverId, userName);
+
+//        binding.call.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                setVoiceCall(receiverId, userName);
+//            }
+//        });
+//
+//        binding.vedioCall.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                setVideoCall(receiverId, userName);
+//            }
+//        });
+
+    }
+
+    void startService(){
+        Application application = getApplication();
+        long appID = 904089373;
+        String appSign = "157aefbbf942f202c5a20fa27971bb79e541d46ac42f261a2dcd7a3f512c171b";
+        String userName = auth.getCurrentUser().toString();
+        String userID = auth.getUid().toString();
+
+
+        ZegoUIKitPrebuiltCallInvitationConfig callInvitationConfig = new ZegoUIKitPrebuiltCallInvitationConfig();
+        callInvitationConfig.notifyWhenAppRunningInBackgroundOrQuit = true;
+        ZegoNotificationConfig notificationConfig = new ZegoNotificationConfig();
+        notificationConfig.sound = "zego_uikit_sound_call";
+        notificationConfig.channelID = "CallInvitation";
+        notificationConfig.channelName = "CallInvitation";
+        ZegoUIKitPrebuiltCallInvitationService.init(getApplication(), appID, appSign, userID, userName,callInvitationConfig);
+    }
+
+    void setVoiceCall(String targetUserID, String targetUserName){
+
+        binding.call.setIsVideoCall(false);
+        binding.call.setResourceID("zego_uikit_call");
+        binding.call.setInvitees(Collections.singletonList(new ZegoUIKitUser(targetUserID,targetUserName)));
+    }
+
+    void setVideoCall(String targetUserID, String targetUserName){
+
+        startService();
+        binding.videoCall.setIsVideoCall(true);
+        binding.videoCall.setResourceID("zego_uikit_call");
+        binding.videoCall.setInvitees(Collections.singletonList(new ZegoUIKitUser(targetUserID,targetUserName)));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ZegoUIKitPrebuiltCallInvitationService.unInit();
     }
 }

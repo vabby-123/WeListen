@@ -63,4 +63,8 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.8'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
+    implementation 'com.github.ZEGOCLOUD:zego_uikit_prebuilt_call_android:+'
+    implementation 'com.github.ZEGOCLOUD:zego_uikit_signaling_plugin_android:+'
+
+
 }
