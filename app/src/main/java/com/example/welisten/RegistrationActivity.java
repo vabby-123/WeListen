@@ -171,7 +171,8 @@ public class RegistrationActivity extends AppCompatActivity {
 
         binding.login.setOnClickListener((View v) -> {
 
-                Toast.makeText(RegistrationActivity.this, "Login page" ,Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(RegistrationActivity.this , SignInActivity.class);
+                startActivity(intent);
 
             }
             );
